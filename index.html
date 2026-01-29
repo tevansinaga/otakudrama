@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OtakuDrama</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+
+  <!-- Navbar -->
+  <nav class="flex items-center justify-between px-6 py-4 bg-zinc-900">
+    <h1 class="text-2xl font-bold text-red-500">OtakuDrama</h1>
+    <ul class="flex gap-6 text-sm">
+      <li class="hover:text-red-400 cursor-pointer">Home</li>
+      <li class="hover:text-red-400 cursor-pointer">K‑Drama</li>
+      <li class="hover:text-red-400 cursor-pointer">J‑Drama</li>
+      <li class="hover:text-red-400 cursor-pointer">Anime</li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative h-[60vh] flex items-end bg-cover bg-center" style="background-image:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4')">
+    <div class="bg-gradient-to-t from-black w-full p-8">
+      <h2 class="text-4xl font-bold mb-2">Asian Drama & Anime Hub</h2>
+      <p class="max-w-xl text-gray-300">Nonton trailer dan discover K‑Drama, J‑Drama, dan Anime favoritmu dalam satu platform.</p>
+      <button class="mt-4 px-6 py-2 bg-red-600 hover:bg-red-700 rounded">▶ Play Trailer</button>
+    </div>
+  </section>
+
+  <!-- Section -->
+  <section class="px-6 py-10">
+    <h3 class="text-xl font-semibold mb-4">Trending</h3>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <!-- Card -->
+      <div class="hover:scale-105 transition">
+        <img class="rounded" src="https://via.placeholder.com/300x450" />
+        <p class="mt-2 text-sm">Sample Drama</p>
+      </div>
+      <div class="hover:scale-105 transition">
+        <img class="rounded" src="https://via.placeholder.com/300x450" />
+        <p class="mt-2 text-sm">Sample Anime</p>
+      </div>
+      <div class="hover:scale-105 transition">
+        <img class="rounded" src="https://via.placeholder.com/300x450" />
+        <p class="mt-2 text-sm">Sample J‑Drama</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center text-gray-500 text-sm py-6 border-t border-zinc-800">
+    © 2026 OtakuDrama · Asian Entertainment Discovery Platform
+  </footer>
+
+</body>
+</html>
