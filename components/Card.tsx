@@ -7,18 +7,22 @@ type CardProps = {
   image: string;
 };
 
-export default function Card({ id, title, image }: CardProps) {
+export default function Card({ id, title, image }: any) {
   return (
-    // Jika id kosong, link akan menjadi /watch/undefined. Kita harus pastikan id ada.
-    <Link href={`/watch/${id}`} className="hover:scale-105 transition block group">
-      <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-zinc-800 shadow-lg">
-        <img 
-          src={image} 
-          alt={title} 
-          className="w-full h-full object-cover group-hover:brightness-110"
-        />
+    <Link href={`/watch/${id}`}>
+      <div className="group space-y-2">
+        <div className="relative aspect-[2/3] overflow-hidden rounded-md md:rounded-lg bg-zinc-900 shadow-lg">
+          <img
+            src={image}
+            alt={title}
+            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        </div>
+        <h3 className="text-[13px] md:text-sm font-medium leading-snug line-clamp-2 group-hover:text-red-500 transition">
+          {title}
+        </h3>
       </div>
-      <p className="mt-2 text-sm font-medium text-white truncate px-1">{title}</p>
     </Link>
   );
 }

@@ -15,29 +15,31 @@ export default function Navbar() {
     }
   };
 
-  return (
-    <nav className="flex items-center justify-between px-10 py-5 bg-black/80 backdrop-blur-md sticky top-0 z-50">
-      <Link href="/">
-        <h1 className="text-3xl font-extrabold text-red-600 cursor-pointer tracking-tighter hover:scale-105 transition">
-          OtakuDrama
-        </h1>
-      </Link>
+  return (// Di dalam return Navbar.tsx
+<nav className="sticky top-0 z-50 bg-black/95 backdrop-blur-md border-b border-zinc-800">
+  <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
+    {/* Logo */}
+    <Link href="/" className="text-2xl font-black text-red-600 tracking-tighter">
+      OTAKUDRAMA
+    </Link>
 
-      {/* SEARCH BAR BARU */}
-      <form onSubmit={handleSearch} className="flex-1 max-w-md mx-10">
-        <input
-          type="text"
-          placeholder="Cari drama atau anime..."
-          className="w-full bg-zinc-800 text-white px-4 py-2 rounded-full border border-zinc-700 focus:outline-none focus:border-red-600 transition"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      </form>
+    {/* Search Bar - Melebar di HP, Tengah di Desktop */}
+    <form onSubmit={handleSearch} className="order-3 md:order-2 w-full md:w-auto md:flex-1 md:max-w-md">
+      <input
+        type="text"
+        placeholder="Cari drama atau anime..."
+        className="w-full bg-zinc-900 text-sm px-5 py-2.5 rounded-full border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+    </form>
 
-      <div className="flex gap-8 text-white font-medium text-sm">
-        <Link href="/category/k-drama" className="hover:text-red-500 transition">K-Drama</Link>
-        <Link href="/category/anime" className="hover:text-red-500 transition">Anime</Link>
-      </div>
-    </nav>
+    {/* Menu Links */}
+    <div className="order-2 md:order-3 flex items-center gap-4 md:gap-6 text-sm font-semibold uppercase tracking-wider">
+      <Link href="/category/k-drama" className="hover:text-red-500 transition">K-Drama</Link>
+      <Link href="/category/anime" className="hover:text-red-500 transition">Anime</Link>
+    </div>
+  </div>
+</nav>
   );
 }
