@@ -28,7 +28,7 @@ export default async function WatchPage({
   );
 
   // URL Video Player - Menggunakan vidsrc.to yang dikenal lebih stabil untuk subtitle
-const videoUrl = `https://vidsrc.to/embed/tv/${id}/${currentSeason}/${currentEpisode}`;
+const videoUrl = `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${currentSeason}&e=${currentEpisode}`;
 
   return (
     <div className="bg-black min-h-screen text-white pb-20">
