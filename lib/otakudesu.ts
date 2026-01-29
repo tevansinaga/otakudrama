@@ -84,13 +84,19 @@ export async function getAllGenres() {
 }
 
 // Ambil anime berdasarkan genreId
-export async function getAnimeByGenre(genreId: string) {
+export async function getAnimeByGenre(genreId: string, page: number = 1) {
   try {
-    const res = await fetch(`${BASE_URL}/genre/${genreId}`, { cache: 'no-store' });
+    // Sesuaikan dengan URL yang kamu berikan
+    const res = await fetch(`https://www.sankavollerei.com/anime/genre/${genreId}?page=${page}`, { 
+      cache: 'no-store' 
+    });
     const json = await res.json();
-    return json.data?.animeList || [];
+    
+    // API ini biasanya membungkus data dalam properti 'data'
+    return json.data; 
   } catch (error) {
-    return [];
+    console.error("Gagal load genre:", error);
+    return null;
   }
 }
 
