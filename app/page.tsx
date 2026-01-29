@@ -1,65 +1,38 @@
-import { getTrending, getKDrama, getAnime } from "../lib/tmdb";
+import { getAllGenres, getOngoingAnime } from "../lib/otakudesu";
 import Navbar from "../components/Navbar";
-import Section from "../components/Section";
-import Card from "../components/Card";
+import GenreSection from "../components/GenreSection";
+import OngoingList from "../components/OngoingList";
 
 export default async function Home() {
-  // Mengambil data secara paralel agar loading lebih cepat
-  const [trending, kdrama, anime] = await Promise.all([
-    getTrending(),
-    getKDrama(),
-    getAnime(),
+  // Ambil data awal dari API
+  const [genres, ongoingData] = await Promise.all([
+    getAllGenres(),
+    getOngoingAnime(1)
   ]);
 
+  // Pastikan kita mengambil array animeList
+  const initialAnime = ongoingData?.animeList || [];
+
   return (
-    <div className="bg-black min-h-screen text-white">
-      {/* Navbar tetap di atas */}
+    <main className="min-h-screen bg-black text-white pb-20">
+      {/* 1. Kembalikan Navbar ke paling atas */}
       <Navbar />
+      
+      <div className="max-w-7xl mx-auto px-6 mt-10">
+        {/* 2. Kembalikan Tombol Genre */}
+        <div className="mb-12">
+           <GenreSection genres={genres} />
+        </div>
 
-      <main className="p-4 md:p-10 space-y-12">
-        
-        {/* Baris 1: Trending - Menggunakan || untuk antisipasi perbedaan nama properti dari API */}
-        <Section title="Sedang Trending">
-          {trending.results?.map((item: any) => (
-            <Card 
-              key={item.id} 
-              id={item.id} 
-              title={item.name || item.title || "Untitled"} 
-              image={item.poster_path} 
-            />
-          ))}
-        </Section>
-
-        {/* Baris 2: Koleksi K-Drama */}
-        <Section title="Drama Korea Terpopuler">
-          {kdrama.results?.map((item: any) => (
-            <Card 
-              key={item.id} 
-              id={item.id} 
-              title={item.name || item.title} 
-              image={item.poster_path} 
-            />
-          ))}
-        </Section>
-
-        {/* Baris 3: Koleksi Anime */}
-        <Section title="Anime Terbaru">
-          {anime.results?.map((item: any) => (
-            <Card 
-              key={item.id} 
-              id={item.id} 
-              title={item.name || item.title} 
-              image={item.poster_path} 
-            />
-          ))}
-        </Section>
-
-      </main>
-
-      {/* Footer Sederhana */}
-      <footer className="p-10 text-center text-zinc-500 text-sm border-t border-zinc-900">
-        © 2026 OtakuDrama - Nonton Drama & Anime Terlengkap
-      </footer>
-    </div>
+        <div className="mb-16">
+          <h2 className="text-2xl font-black mb-8 uppercase border-l-4 border-red-600 pl-4 tracking-tighter">
+            Ongoing Anime
+          </h2>
+          
+          {/* 3. Render Daftar Anime dengan Infinite Scroll */}
+          <OngoingList initialData={initialAnime} />
+        </div>
+      </div>
+    </main>
   );
 }

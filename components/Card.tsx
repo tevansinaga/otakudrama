@@ -1,28 +1,18 @@
-import React from "react";
 import Link from "next/link";
 
-type CardProps = {
-  id: number; // Pastikan ini ada
-  title: string;
-  image: string;
-};
-
-export default function Card({ id, title, image }: any) {
+export default function Card({ id, title, image }: { id: string, title: string, image: string }) {
   return (
-    <Link href={`/watch/${id}`}>
-      <div className="group space-y-2">
-        <div className="relative aspect-[2/3] overflow-hidden rounded-md md:rounded-lg bg-zinc-900 shadow-lg">
-          <img
-            src={image}
-            alt={title}
-            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-          />
-        </div>
-        <h3 className="text-[13px] md:text-sm font-medium leading-snug line-clamp-2 group-hover:text-red-500 transition">
-          {title}
-        </h3>
+    <Link href={`/anime/${id}`} className="group block">
+      <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-zinc-800 group-hover:border-red-600 transition-all">
+        <img 
+          src={image} 
+          alt={title} 
+          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" 
+        />
       </div>
+      <h3 className="mt-3 text-sm font-bold line-clamp-2 group-hover:text-red-500 transition-colors">
+        {title}
+      </h3>
     </Link>
   );
 }

@@ -34,12 +34,8 @@ export default function Navbar() {
       />
     </form>
 
-    {/* Menu Links */}
-    <div className="order-2 md:order-3 flex items-center gap-4 md:gap-6 text-sm font-semibold uppercase tracking-wider">
-      <Link href="/category/k-drama" className="hover:text-red-500 transition">K-Drama</Link>
-      <Link href="/category/anime" className="hover:text-red-500 transition">Anime</Link>
+    
     </div>
-  </div>
 </nav>
   );
 }
