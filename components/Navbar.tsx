@@ -1,41 +1,29 @@
-"use client"; // Wajib agar input bisa bekerja
-
-import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import SearchBar from "./MangaSearchBar"; // Sekarang namanya lebih umum karena bisa anime & manga
 
 export default function Navbar() {
-  const [query, setQuery] = useState("");
-  const router = useRouter();
+  return (
+    <nav className="flex items-center justify-between px-6 py-4 bg-black border-b border-zinc-800 sticky top-0 z-50">
+      <div className="flex items-center gap-8">
+        <Link href="/" className="text-2xl font-black text-red-600 tracking-tighter">
+          OTAKUDRAMA
+        </Link>
+      </div>
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (query.trim()) {
-      router.push(`/search?q=${query}`); // Pindah ke halaman hasil pencarian
-    }
-  };
+      <div className="flex items-center gap-4">
+        {/* Search bar pintar yang ganti fungsi otomatis */}
+        <div className="hidden md:block">
+          <SearchBar />
+        </div>
 
-  return (// Di dalam return Navbar.tsx
-<nav className="sticky top-0 z-50 bg-black/95 backdrop-blur-md border-b border-zinc-800">
-  <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
-    {/* Logo */}
-    <Link href="/" className="text-2xl font-black text-red-600 tracking-tighter">
-      OTAKUDRAMA
-    </Link>
-
-    {/* Search Bar - Melebar di HP, Tengah di Desktop */}
-    <form onSubmit={handleSearch} className="order-3 md:order-2 w-full md:w-auto md:flex-1 md:max-w-md">
-      <input
-        type="text"
-        placeholder="Cari drama atau anime..."
-        className="w-full bg-zinc-900 text-sm px-5 py-2.5 rounded-full border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-    </form>
-
-    
-    </div>
-</nav>
+        {/* TOMBOL BACA KOMIK */}
+        <Link 
+          href="/manga" 
+          className="bg-orange-500 hover:bg-orange-600 text-black text-[10px] font-black px-4 py-2 rounded-full uppercase transition-all shadow-lg shadow-orange-500/20 flex items-center gap-2 group"
+        >
+          <span></span>BACA KOMIK
+        </Link>
+      </div>
+    </nav>
   );
 }
