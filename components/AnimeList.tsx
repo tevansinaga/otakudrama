@@ -12,7 +12,6 @@ interface Props {
 }
 
 export default function AnimeList({ initialData, type, genreId }: Props) {
-  // Gunakan state untuk menyimpan daftar anime
   const [anime, setAnime] = useState(initialData || []);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -23,7 +22,7 @@ export default function AnimeList({ initialData, type, genreId }: Props) {
     threshold: 0 
   });
 
-  // Reset data saat genreId atau type berubah agar anime lama tidak menumpuk
+  // Reset state saat user berpindah genre atau halaman
   useEffect(() => {
     setAnime(initialData || []);
     setPage(1);
@@ -37,12 +36,11 @@ export default function AnimeList({ initialData, type, genreId }: Props) {
     setLoading(true);
     const nextPage = page + 1;
     
-    // Panggil fungsi API berdasarkan tipe halaman
     const res = type === "ongoing" 
       ? await getOngoingAnime(nextPage) 
       : await getAnimeByGenre(genreId!, nextPage);
 
-    // Ambil array anime dari berbagai kemungkinan struktur JSON API
+    // Ambil array data dari response API Sanka
     const newList = res?.animeList || res?.anime || (Array.isArray(res) ? res : []);
 
     if (newList.length === 0) {
@@ -54,7 +52,6 @@ export default function AnimeList({ initialData, type, genreId }: Props) {
     setLoading(false);
   };
 
-  // Trigger loadMore saat elemen sensor (ref) terlihat di layar
   useEffect(() => {
     if (inView && !loading && hasMore) {
       loadMore();
@@ -67,20 +64,24 @@ export default function AnimeList({ initialData, type, genreId }: Props) {
         {anime.length > 0 ? (
           anime.map((item: any, index: number) => (
             <Card 
-              key={`${item.animeId || item.id}-${index}`} // Kombinasi ID dan Index agar key unik
+              key={`${item.animeId || item.id || index}-${index}`}
               id={item.animeId || item.id} 
               title={item.title} 
-              image={item.poster || item.image} 
+              image={item.poster || item.image}
+              /** * Perbaikan Utama: Menggunakan properti 'episodes' sesuai data API di image_b8b9b6.png
+               * Fallback ditambahkan jika properti berbeda di endpoint genre
+               */
+              episode={item.episodes || item.currentEpisode || item.episode} 
             />
           ))
         ) : !loading && (
           <div className="col-span-full py-20 text-center">
-             <p className="text-zinc-500 italic">Tidak ada anime yang ditemukan.</p>
+              <p className="text-zinc-500 italic">Tidak ada anime yang ditemukan.</p>
           </div>
         )}
       </div>
 
-      {/* Elemen Sensor untuk Infinite Scroll */}
+      {/* Sensor Infinite Scroll */}
       <div ref={ref} className="h-20 flex items-center justify-center mt-10">
         {loading && (
           <div className="flex gap-2">

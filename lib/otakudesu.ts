@@ -36,23 +36,31 @@ export async function getAnimeDetail(id: string) {
 }
 
 // Tahap 1: Mendapatkan daftar server dari sebuah episode
+// Tahap 1: Mendapatkan detail episode (judul, daftar server, prev/next)
 export async function getEpisodeDetails(episodeSlug: string) {
   try {
-    const res = await fetch(`${BASE_URL}/episode/${episodeSlug}`, { cache: 'no-store' });
+    const res = await fetch(`${BASE_URL}/episode/${episodeSlug}`, { 
+      cache: 'no-store' 
+    });
     const json = await res.json();
-    return json.data; // Ini berisi title episode dan serverList
+    return json.data; // Mengambil objek 'data'
   } catch (error) {
+    console.error("Gagal mengambil detail episode:", error);
     return null;
   }
 }
 
-// Tahap 2: Mendapatkan URL embed dari serverID yang dipilih
+// Tahap 2: Mendapatkan URL embed asli dari serverID yang dipilih
 export async function getStreamUrl(serverId: string) {
   try {
-    const res = await fetch(`${BASE_URL}/server/${serverId}`, { cache: 'no-store' });
+    // Endpoint ini akan mengembalikan URL iframe seperti desustream, dsb
+    const res = await fetch(`${BASE_URL}/server/${serverId}`, { 
+      cache: 'no-store' 
+    });
     const json = await res.json();
-    return json.data; // Ini berisi link iframe/embed
+    return json.data; // Biasanya berisi { url: "https://..." }
   } catch (error) {
+    console.error("Gagal mengambil stream URL:", error);
     return null;
   }
 }
