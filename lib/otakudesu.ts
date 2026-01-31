@@ -18,17 +18,22 @@ export async function getLatestAnime() {
   }
 }
 
+// lib/otakudesu.ts
+
 export async function getAnimeDetail(id: string) {
   try {
-    // Sesuaikan dengan format yang sudah kamu tes dan terbukti berhasil
-    const res = await fetch(`https://www.sankavollerei.com/anime/anime/${id}`, { 
+    // Membersihkan ID jika yang dikirim adalah URL lengkap (misal: /anime/judul/)
+    // Kita hanya ambil "judul" nya saja.
+    const cleanId = id.replace(/\/$/, "").split("/").pop();
+
+    const res = await fetch(`https://www.sankavollerei.com/anime/anime/${cleanId}`, { 
       cache: 'no-store' 
     });
 
-    if (!res.ok) throw new Error("Gagal mengambil data dari server");
+    if (!res.ok) throw new Error(`Gagal mengambil data: ${res.status}`);
 
     const json = await res.json();
-    return json; // Mengembalikan objek yang berisi status, message, dan data
+    return json; 
   } catch (error) {
     console.error("Error Detail Fetch:", error);
     return null;
@@ -123,13 +128,31 @@ export async function getAnimeList() {
 // Ambil Anime Ongoing
 export async function getOngoingAnime(page: number = 1) {
   try {
-    const res = await fetch(`https://www.sankavollerei.com/anime/ongoing-anime?page=${page}`, { 
-      cache: 'no-store' 
-    });
+    const res = await fetch(
+      `https://www.sankavollerei.com/anime/ongoing-anime?page=${page}`, 
+      { 
+        cache: 'no-store',
+        // Menambahkan timeout sederhana agar fetch tidak menggantung
+        signal: AbortSignal.timeout(5000) 
+      }
+    );
+
+    if (!res.ok) throw new Error("Gagal mengambil data dari API");
+
     const json = await res.json();
-    // Kembalikan objek data agar Page.tsx bisa memilih animeList-nya
-    return json.data; 
+
+    // Pastikan mengembalikan struktur yang diharapkan oleh Page.tsx
+    // Kita pastikan ada properti 'animeList' agar .slice() tidak error
+    return {
+      animeList: json.data?.animeList || json.data || [],
+      totalPage: json.data?.totalPage || 1
+    };
   } catch (error) {
-    return null;
+    console.error("Error getOngoingAnime:", error);
+    // Mengembalikan struktur default agar aplikasi tidak break
+    return {
+      animeList: [],
+      totalPage: 1
+    };
   }
 }
