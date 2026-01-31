@@ -64,11 +64,21 @@ export async function getChapterData(chapterId: string) {
 }
 
 
-export async function searchManga(query: string) {
+export async function searchManga(query: string, page: number = 1) {
   try {
-    const res = await fetch(`https://www.sankavollerei.com/comic/search?q=${query}`, { cache: 'no-store' });
+    // Jika API mendukung pagination, biasanya formatnya &page= atau &offset=
+    // Kita coba gunakan standar umum, jika tidak efeknya hanya akan meload data yang sama
+    const res = await fetch(
+      `https://www.sankavollerei.com/comic/search?q=${encodeURIComponent(query)}&page=${page}`, 
+      { cache: 'no-store' }
+    );
+
+    if (!res.ok) throw new Error("Network response was not ok");
+
     const json = await res.json();
-    return json.data || []; // Mengambil array dari properti 'data'
+    
+    // Pastikan kita mengambil array data. Seringkali API ini mengembalikan di json.data
+    return json.data || json || []; 
   } catch (error) {
     console.error("Gagal mencari manga:", error);
     return [];

@@ -16,3 +16,10 @@ body {
   background: #3f3f46; /* zinc-700 */
   border-radius: 10px;
 }
+
+/* app/globals.css */
+button:active, a:active {
+  transform: scale(0.96);
+  opacity: 0.8;
+  transition: transform 0.1s ease;
+}
