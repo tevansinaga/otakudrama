@@ -1,11 +1,17 @@
 "use client";
 import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
+  const [mounted, setMounted] = useState(false); //
   const router = useRouter();
   const pathname = usePathname();
+
+  // Pastikan komponen sudah "menempel" di browser sebelum render
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const isMangaPage = pathname.startsWith("/manga");
 
@@ -17,6 +23,11 @@ export default function SearchBar() {
     router.push(`${targetPath}?q=${encodeURIComponent(query)}`);
   };
 
+  // Mencegah Hydration Mismatch dengan merender skeleton/div kosong di server
+  if (!mounted) {
+    return <div className="h-9 w-full bg-zinc-900/50 rounded-full animate-pulse border border-zinc-800" />;
+  }
+
   return (
     <form 
       onSubmit={handleSearch} 
@@ -26,7 +37,6 @@ export default function SearchBar() {
         type="text" 
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        // Placeholder lebih ringkas untuk layar HP
         placeholder={isMangaPage ? "Cari komik..." : "Cari anime..."} 
         className={`bg-zinc-900/50 text-[10px] md:text-xs px-4 md:px-5 py-2 rounded-full w-full border transition-all text-white placeholder:text-zinc-600 outline-none ${
           isMangaPage 

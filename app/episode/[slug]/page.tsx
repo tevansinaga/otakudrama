@@ -14,9 +14,22 @@ export default async function EpisodePage({ params }: { params: { slug: string }
       <Navbar />
       
       <div className="max-w-5xl mx-auto px-4 mt-10">
-        <h1 className="text-lg md:text-xl font-black text-center mb-8 uppercase leading-relaxed">
+        <h1 className="text-lg md:text-xl font-black text-center mb-4 uppercase leading-relaxed">
           {data.title}
         </h1>
+
+        {/* --- CATATAN SARAN SERVER --- */}
+        <div className="flex justify-center mb-8">
+          <div className="bg-red-600/10 border border-red-600/20 px-4 py-2 rounded-full flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+            </span>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-red-500">
+              Tips: Gunakan Server <span className="underline decoration-red-500/50 underline-offset-4">Ondesu,Otakustream</span> untuk menghindari iklan
+            </p>
+          </div>
+        </div>
 
         {/* Player & Server Selector */}
         <VideoPlayer ep={data} />
